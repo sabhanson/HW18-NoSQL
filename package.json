@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/sabhanson/HW18-NoSQL/issues"
   },
-  "homepage": "https://github.com/sabhanson/HW18-NoSQL#readme"
+  "homepage": "https://github.com/sabhanson/HW18-NoSQL#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "moment": "^2.29.1",
+    "mongoose": "^6.2.3"
+  }
 }
