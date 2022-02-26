@@ -60,23 +60,59 @@ router.put("/:userId", (req, res) => {
 });
 
 // delete an existing user
-router.delete('/:userId', (req,res) => {
-    User.findOneAndDelete({_id: req.params.userId})
+router.delete("/:userId", (req, res) => {
+  User.findOneAndDelete({ _id: req.params.userId })
     .then((user) => {
-        if (!user) {
-            res.status(404).json({ message: "oops,user does not exist"})
-            return;
-        }
-        res.status(200).json(user)
+      if (!user) {
+        res.status(404).json({ message: "oops,user does not exist" });
+        return;
+      }
+      res.status(200).json(user);
     })
-    .catch((err)=> {
-        console.error({message: err});
-        return res.status(500).json(err);
-    })
-})
+    .catch((err) => {
+      console.error({ message: err });
+      return res.status(500).json(err);
+    });
+});
 
 // add a new friend
+router.post("/:userId/friends/:friendId", (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.params.userId },
+    { $push: { friends: req.params.friendId } },
+    { new: true }
+  )
+    .then((user) => {
+      if (!user) {
+        res.status(404).json({ message: "oops, user does not exist" });
+        return;
+      }
+      res.status(200).json(user);
+    })
+    .catch((err) => {
+      console.error({ message: err });
+      return res.status(500).json(err);
+    });
+});
 
 // delete an existing friend
+router.delete("/:userId/friends/:friendId", (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.params.userId },
+    { $pull: { friends: req.params.friendId } },
+    { new: true }
+  )
+    .then((user) => {
+      if (!user) {
+        res.status(404).json({ message: "oops, user does not exist" });
+        return;
+      }
+      res.status(200).json(user);
+    })
+    .catch((err) => {
+      console.error({ message: err });
+      return res.status(500).json(err);
+    });
+});
 
 module.exports = router;
