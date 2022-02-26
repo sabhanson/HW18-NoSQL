@@ -15,8 +15,16 @@ const userSchema = new Schema(
             //regex for email validation
             match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/]
         },
-        thoughts: [], //must be an array of the user's thoughts
-        friends: [], //must be an array of the user's friends
+        thoughts: [{
+            //array of thoughts referencing the thought model
+            type: Schema.Types.ObjectId,
+            ref: 'Thought'
+        }],
+        friends: [{
+            //array of friends referencing the user model
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }],
     },
     {
         toJSON: {
