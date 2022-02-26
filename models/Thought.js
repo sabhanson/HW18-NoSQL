@@ -12,13 +12,13 @@ const thoughtSchema = new Schema (
         createdAt: {
             type: Date,
             default: Date.now,
-            //need to make a get to get the time in the correct format
+            get: (getTime)=> {moment(getTime).format('MMMM Do YYYY, h:mm:ss a')}
         },
         username: {
             type: String,
             required: true
         },
-        reactions: [] //array of the reactions that belong to this thought
+        reactions: [reactionArray] //array of the reactions that belong to this thought
     },
     {
         toJSON: {
@@ -55,3 +55,11 @@ const reactionSchema = new Schema(
         }
     }
 )
+
+thoughtSchema.virtual('reactionCount').get(function() {
+    return this.reactions.length;
+})
+
+const Thought = model('Thought',thoughtSchema);
+
+module.exports = Thought;
